@@ -1,64 +1,72 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, Button, Alert, Name, TextInput } from 'react-native';
 
 export default class App extends Component {
+  _onPressButton() {
+    Alert.alert('You tapped the button!')
+  }
   render() {
-    let pic = {
-      uri: 'https://i.pinimg.com/564x/fa/e8/f4/fae8f49da663d919fefe0250843c1979.jpg'
-    };
     return (
       <View style={styles.container}>
-        <Text style={{fontWeight: 'bold', color: 'red', fontSize: 30}}> Sasuke </Text>
-        <Image source={pic} style={{width: 193, height: 110}}/>
-        <Text style={styles.bigblue}>He Inspires </Text>
-        <Blink text='Yes.. he is no great' />
-        <Blink text='But he do not believe in this life and karma' />
-        <Blink text='he dont give a fuck about this world' />
-      </View>  
+        <Text style={{fontWeight: 'bold', color: 'black', fontSize: 30}}> Login here </Text>
+        <NameForm />
+      </View>
     );
   }
 }
 
-
-class Blink extends Component {
+/**
+ * Form control input
+ * Ref- React Forms
+ */
+class NameForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {showText: true};
+    this.state = {value: ''};
 
-    // Toggle the state every second
-    setInterval(() => {
-      this.setState(previousState => {
-        return { showText: !previousState.showText };
-      });
-    }, 1000);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(value) {
+    this.setState({value: value});
+  }
+
+  handleSubmit(value) {
+    alert('A name was submitted: ' + this.state.value);
   }
 
   render() {
-    let display = this.state.showText ? this.props.text : ' ';
     return (
-      <Text style={styles.white}>{display}</Text>
+        <View style={{ flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', margin: 10, paddingTop: 20}}>
+          <View style={{ }}></View>
+          <View style={{flexWrap: 'nowrap'}}>
+            <Text>
+              Name:
+            </Text> 
+            <TextInput 
+              value={this.state.value} 
+              onChangeText={this.handleChange} 
+              placeholder="Type your name here!" />
+          </View>
+          <View style={{}} >    
+            <Button onPress={this.handleSubmit} title="Submit" />
+          </View>
+        </View>
     );
   }
 }
+
+/**
+ * Floating-label component
+ * https://goshakkk.name/floating-label-input-rn-animated/
+ */
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'black',
+    backgroundColor: 'yellow',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  bigblue: {
-    color: 'blue',
-    fontWeight: 'bold',
-    fontSize: 20,
-  },
-  red: {
-    color: 'red',
-    fontWeight: 'bold',
-    fontSize: 30,
-  },
-  white: {
-    color: 'white'
   }
-});
+  });
