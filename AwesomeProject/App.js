@@ -1,72 +1,83 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, Button, Alert, Name, TextInput } from 'react-native';
+import { 
+  View,
+  StatusBar,
+  TextInput,
+  Animated} from 'react-native'; 
 
-export default class App extends Component {
-  _onPressButton() {
-    Alert.alert('You tapped the button!')
-  }
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={{fontWeight: 'bold', color: 'black', fontSize: 30}}> Login here </Text>
-        <NameForm />
-      </View>
-    );
-  }
-}
 
-/**
- * Form control input
- * Ref- React Forms
- */
-class NameForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {value: ''};
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  handleChange(value) {
-    this.setState({value: value});
-  }
-
-  handleSubmit(value) {
-    alert('A name was submitted: ' + this.state.value);
-  }
-
-  render() {
-    return (
-        <View style={{ flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', margin: 10, paddingTop: 20}}>
-          <View style={{ }}></View>
-          <View style={{flexWrap: 'nowrap'}}>
-            <Text>
-              Name:
-            </Text> 
-            <TextInput 
-              value={this.state.value} 
-              onChangeText={this.handleChange} 
-              placeholder="Type your name here!" />
-          </View>
-          <View style={{}} >    
-            <Button onPress={this.handleSubmit} title="Submit" />
-          </View>
+  class FloatingLabelInput extends Component {
+    state = {
+      isFocused: false,
+    };
+  
+    componentWillMount() {
+      this._animatedIsFocused = new Animated.Value(this.props.value === '' ? 0 : 1);
+    }
+  
+    handleFocus = () => this.setState({ isFocused: true });
+    handleBlur = () => this.setState({ isFocused: false });
+  
+    componentDidUpdate() {
+      Animated.timing(this._animatedIsFocused, {
+        toValue: (this.state.isFocused || this.props.value !== '') ? 1 : 0,
+        duration: 2,
+      }).start();
+    }
+  
+    render() {
+      const { label, ...props } = this.props;
+      const labelStyle = {
+        position: 'absolute',
+        left: 0,
+        top: this._animatedIsFocused.interpolate({
+          inputRange: [0, 1],
+          outputRange: [18, 0],
+        }),
+        fontSize: this._animatedIsFocused.interpolate({
+          inputRange: [0, 1],
+          outputRange: [20, 14],
+        }),
+        color: this._animatedIsFocused.interpolate({
+          inputRange: [0, 1],
+          outputRange: ['#aaa', '#000'],
+        }),
+      };
+      return (
+        <View style={{ paddingTop: 18 }}>
+          <Animated.Text style={labelStyle}>
+            {label}
+          </Animated.Text>
+          <TextInput
+            {...props}
+            style={{ height: 26, fontSize: 20, color: '#000', borderBottomWidth: 1, borderBottomColor: '#555' }}
+            onFocus={this.handleFocus}
+            onBlur={this.handleBlur}
+            blurOnSubmit
+          />
         </View>
-    );
+      );
+    }
   }
-}
-
-/**
- * Floating-label component
- * https://goshakkk.name/floating-label-input-rn-animated/
- */
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'yellow',
-    alignItems: 'center',
-    justifyContent: 'center',
+  
+  export default class App extends Component {
+    state = {
+      value: '',
+    };
+  
+    handleTextChange = (newText) => this.setState({ value: newText });
+  
+    render() {
+      return (
+        <View style={{ flex: 1, padding: 30, backgroundColor: '#f5fcff' }}>
+          <StatusBar hidden />
+          <FloatingLabelInput
+            label="Email"
+            value={this.state.value}
+            onChangeText={this.handleTextChange}
+          />
+        </View>
+      );
+    }
   }
-  });
+  
