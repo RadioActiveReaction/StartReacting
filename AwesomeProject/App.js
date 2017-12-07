@@ -26,7 +26,7 @@ export default class App extends Component {
          style={styles.button}
          onPress={this.onPress}
         >
-         <Text> Touch Here </Text>
+         <Text> Don't Touch me, I'll remember!! </Text>
         </TouchableHighlight>
         <View style={[styles.countContainer]}>
           <Text style={[styles.countText]}>
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
     backgroundColor: '#DDDDDD',
-    padding: 10
+    padding: 20
   },
   countContainer: {
     alignItems: 'center',
