@@ -1,64 +1,78 @@
-import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import React, { Component } from 'react'
+import {
+  AppRegistry,
+  StyleSheet,
+  TouchableHighlight,
+  TouchableOpacity,
+  Text,
+  View,
+} from 'react-native'
 
 export default class App extends Component {
-  render() {
-    let pic = {
-      uri: 'https://i.pinimg.com/564x/fa/e8/f4/fae8f49da663d919fefe0250843c1979.jpg'
-    };
+  constructor(props) {
+    super(props)
+    this.state = { count: 0 }
+  }
+
+  onPressPlus = () => {
+    this.setState({
+      count: this.state.count+1
+    })
+  }
+
+  onPressMinus = () => {
+    this.setState({
+      count: this.state.count <= 0 ? 0: this.state.count-1
+    })
+  }
+ render() {
     return (
       <View style={styles.container}>
-        <Text style={{fontWeight: 'bold', color: 'red', fontSize: 30}}> Sasuke </Text>
-        <Image source={pic} style={{width: 193, height: 110}}/>
-        <Text style={styles.bigblue}>He Inspires </Text>
-        <Blink text='Yes.. he is no great' />
-        <Blink text='But he do not believe in this life and karma' />
-        <Blink text='he dont give a fuck about this world' />
-      </View>  
-    );
-  }
-}
-
-
-class Blink extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {showText: true};
-
-    // Toggle the state every second
-    setInterval(() => {
-      this.setState(previousState => {
-        return { showText: !previousState.showText };
-      });
-    }, 1000);
-  }
-
-  render() {
-    let display = this.state.showText ? this.props.text : ' ';
-    return (
-      <Text style={styles.white}>{display}</Text>
-    );
+        <TouchableHighlight
+         style={styles.button}
+         pressRetentionOffset={{top: 50, left: 5, bottom: 6, right: 8}} 
+         //The button will remain active if you press and drag up to above given length
+         //https://stackoverflow.com/questions/38206621/react-native-what-does-pressretentionoffset-do
+         onPress={this.onPressPlus}
+        >
+         <Text> Eat Button </Text>
+        </TouchableHighlight>
+        <View style={[styles.countContainer]}>
+          <Text style={[styles.countText]}>
+            { this.state.count !== 0 ? this.state.count: null}
+          </Text>
+        </View>
+        <View>
+        <TouchableOpacity 
+         activeOpacity={0.1} 
+         style={styles.button}
+         pressRetentionOffset={{top: 5, left: 5, bottom: 500, right: 8}}
+         onPress={this.onPressMinus}
+        >
+         <Text> Drain Button</Text>
+        </TouchableOpacity>
+        </View>
+      </View>
+    )
   }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'black',
-    alignItems: 'center',
     justifyContent: 'center',
+    paddingHorizontal: 10, 
   },
-  bigblue: {
-    color: 'blue',
-    fontWeight: 'bold',
-    fontSize: 20,
+  button: {
+    alignItems: 'center',
+    backgroundColor: '#DDDDDD',
+    padding: 20
   },
-  red: {
-    color: 'red',
-    fontWeight: 'bold',
-    fontSize: 30,
+  countContainer: {
+    alignItems: 'center',
+    padding: 10
   },
-  white: {
-    color: 'white'
+  countText: {
+    color: '#FF00FF'
   }
-});
+})
