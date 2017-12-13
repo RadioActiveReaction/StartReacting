@@ -1,64 +1,61 @@
-import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import React, { Component } from 'react'
+import { Text, View, TouchableOpacity, StyleSheet } from 'react-native'
 
-export default class App extends Component {
-  render() {
-    let pic = {
-      uri: 'https://i.pinimg.com/564x/fa/e8/f4/fae8f49da663d919fefe0250843c1979.jpg'
-    };
-    return (
-      <View style={styles.container}>
-        <Text style={{fontWeight: 'bold', color: 'red', fontSize: 30}}> Sasuke </Text>
-        <Image source={pic} style={{width: 193, height: 110}}/>
-        <Text style={styles.bigblue}>He Inspires </Text>
-        <Blink text='Yes.. he is no great' />
-        <Blink text='But he do not believe in this life and karma' />
-        <Blink text='he dont give a fuck about this world' />
-      </View>  
-    );
-  }
+class List extends Component {
+   state = {
+      names: [
+         {
+            id: 0,
+            name: 'Kumar',
+         },
+         {
+            id: 1,
+            name: 'Singh',
+         },
+         {
+            id: 2,
+            name: 'Ahmed',
+         },
+         {
+            id: 3,
+            name: 'Nish',
+         }
+      ]
+   }
+   alertItemName = (item) => {
+      alert(item.name)
+   }
+   render() {
+      return (
+         <View> 
+            {
+               this.state.names.map((item, index) => (
+                  <TouchableOpacity
+                     key = {item.id}
+                     style = {styles.container}
+                     onPress = {() => this.alertItemName(item)}>
+                     
+                     <Text style = {styles.text}>
+                        {item.name}
+                     </Text>
+                  </TouchableOpacity>
+               ))
+            }
+         </View>
+      )
+   }
 }
+export default List
 
-
-class Blink extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {showText: true};
-
-    // Toggle the state every second
-    setInterval(() => {
-      this.setState(previousState => {
-        return { showText: !previousState.showText };
-      });
-    }, 1000);
-  }
-
-  render() {
-    let display = this.state.showText ? this.props.text : ' ';
-    return (
-      <Text style={styles.white}>{display}</Text>
-    );
-  }
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'black',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  bigblue: {
-    color: 'blue',
-    fontWeight: 'bold',
-    fontSize: 20,
-  },
-  red: {
-    color: 'red',
-    fontWeight: 'bold',
-    fontSize: 30,
-  },
-  white: {
-    color: 'white'
-  }
-});
+const styles = StyleSheet.create ({
+   container: {
+      padding: 10,
+      paddingTop: 100,
+      marginTop: 3,
+      backgroundColor: '#d9f9b1',
+      alignItems: 'center',
+   },
+   text: {
+      color: '#4f603c'
+   }
+})
