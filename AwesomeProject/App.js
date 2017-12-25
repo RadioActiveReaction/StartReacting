@@ -1,42 +1,68 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, Alert} from 'react-native';
 
 export default class App extends Component {
-  render() {
-    let pic = {
-      uri: 'https://i.pinimg.com/564x/fa/e8/f4/fae8f49da663d919fefe0250843c1979.jpg'
-    };
-    return (
-      <View style={styles.container}>
-        <Text style={{fontWeight: 'bold', color: 'red', fontSize: 30}}> Sasuke </Text>
-        <Image source={pic} style={{width: 193, height: 110}}/>
-        <Text style={styles.bigblue}>He Inspires </Text>
-        <Blink text='Yes.. he is no great' />
-        <Blink text='But he do not believe in this life and karma' />
-        <Blink text='he dont give a fuck about this world' />
-      </View>  
-    );
-  }
-}
-
-
-class Blink extends Component {
   constructor(props) {
     super(props);
-    this.state = {showText: true};
-
-    // Toggle the state every second
-    setInterval(() => {
-      this.setState(previousState => {
-        return { showText: !previousState.showText };
-      });
-    }, 1000);
+    this.state = {UserName: '', Password: ''};
+    this.validate = this.validate.bind(this);
+    this.clearDetails = this.clearDetails.bind(this);
   }
 
+  validate() {
+    if(this.state.UserName === 'Dinesh' && this.state.Password === 'Baba') {
+      return <Text style={{fontWeight: 'bold', color: 'blue', fontSize: 30}}> Hello, $(this.state.UserName) </Text>;
+    } else {
+      return <Text style={{fontWeight: 'bold', color: 'red', fontSize: 30}}> Sorry Wrong UserName and Password </Text>;
+    }
+    // if(this.state.UserName === 'Dinesh' && this.state.Password === 'Baba') {
+    //   const welcomeMessage = 'Hello ' + this.state.UserName;
+    //   Alert.alert(welcomeMessage);
+    // } else {
+    //   Alert.alert('Wrong UserName and Password');
+    // }
+  }
+
+  clearDetails() {
+    this.setState({UserName: '', Password: ''});
+  }
   render() {
-    let display = this.state.showText ? this.props.text : ' ';
     return (
-      <Text style={styles.white}>{display}</Text>
+      <View style={styles.container}>
+        <View style={{flexDirection: 'row', width: 300, height: 50}}>
+          <Text style={{fontWeight: 'bold', color: 'blue', fontSize: 15 }}> UserName </Text>
+          <TextInput
+            style={{height: 20, fontSize: 15}}
+            placeholder="Enter UserName"
+            onChangeText={(UserName) => this.setState({UserName})}
+          />
+        </View>
+        <View style={{flexDirection: 'row', width: 300, height: 50}}>
+          <Text style={{fontWeight: 'bold', color: 'blue', fontSize: 15}}> Password </Text>
+          <TextInput
+            style={{height: 20, fontSize: 15}}
+            placeholder="Enter Password"
+            secureTextEntry={true}
+            onChangeText={(Password) => this.setState({Password})}
+          />
+        </View>
+        <View style={{flexDirection: 'row',width: 300, height: 50,
+        alignItems: 'center',
+        justifyContent: 'center'}}>
+          <Button
+            onPress={this.validate}
+            title="Login"
+            color="#841584"
+            accessibilityLabel="Login"
+            />
+          <Button
+            onPress={this.clearDetails}
+            title="Cancel"
+            color="#841584"
+            accessibilityLabel="Cancel"
+          />
+      </View>
+    </View>
     );
   }
 }
@@ -44,21 +70,10 @@ class Blink extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'black',
+    flexDirection: 'column',
+    height: 400,
+    backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  bigblue: {
-    color: 'blue',
-    fontWeight: 'bold',
-    fontSize: 20,
-  },
-  red: {
-    color: 'red',
-    fontWeight: 'bold',
-    fontSize: 30,
-  },
-  white: {
-    color: 'white'
   }
 });
