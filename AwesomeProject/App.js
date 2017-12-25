@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, Alert} from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, Alert, Image} from 'react-native';
 
 export default class App extends Component {
   constructor(props) {
@@ -27,28 +27,40 @@ export default class App extends Component {
     this.setState({UserName: '', Password: ''});
   }
   render() {
+    const remote = 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1200px-Good_Food_Display_-_NCI_Visuals_Online.jpg';
     return (
       <View style={styles.container}>
-        <View style={{flexDirection: 'row', width: 300, height: 50}}>
-          <Text style={{fontWeight: 'bold', color: 'blue', fontSize: 15 }}> UserName </Text>
+        <Image
+          style={{
+            flex: 1,
+            position: 'absolute',
+            width: '100%',
+            height: '100%',
+            justifyContent: 'center',
+          }}
+          source={{ uri: remote }}
+        />
+        <View style={{flexDirection: 'row', width: 300, height: 50, backgroundColor: 'rgba(0,0,0,0.5)'}}>
+          <Text style={{fontWeight: 'bold', color: 'white', fontSize: 15 }}> UserName </Text>
           <TextInput
-            style={{height: 20, fontSize: 15}}
+            style={{height: 20, fontSize: 15, color: 'white'}}
             placeholder="Enter UserName"
             onChangeText={(UserName) => this.setState({UserName})}
           />
         </View>
-        <View style={{flexDirection: 'row', width: 300, height: 50}}>
-          <Text style={{fontWeight: 'bold', color: 'blue', fontSize: 15}}> Password </Text>
+        <View style={{flexDirection: 'row', width: 300, height: 50, backgroundColor: 'rgba(0,0,0,0.5)'}}>
+          <Text style={{fontWeight: 'bold', color: 'white', fontSize: 15}}> Password </Text>
           <TextInput
-            style={{height: 20, fontSize: 15}}
+            style={{height: 20, fontSize: 15, color: 'white'}}
             placeholder="Enter Password"
             secureTextEntry={true}
             onChangeText={(Password) => this.setState({Password})}
           />
         </View>
         <View style={{flexDirection: 'row',width: 300, height: 50,
-        alignItems: 'center',
-        justifyContent: 'center'}}>
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
           <Button
             onPress={this.validate}
             title="Login"
@@ -72,7 +84,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     height: 400,
-    backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
   }
