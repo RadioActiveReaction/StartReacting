@@ -10,17 +10,18 @@ export default class App extends Component {
   }
 
   validate() {
-    if(this.state.UserName === 'Dinesh' && this.state.Password === 'Baba') {
-      return <Text style={{fontWeight: 'bold', color: 'blue', fontSize: 30}}> Hello, $(this.state.UserName) </Text>;
-    } else {
-      return <Text style={{fontWeight: 'bold', color: 'red', fontSize: 30}}> Sorry Wrong UserName and Password </Text>;
-    }
+    // TODO Add Navigation Here
     // if(this.state.UserName === 'Dinesh' && this.state.Password === 'Baba') {
-    //   const welcomeMessage = 'Hello ' + this.state.UserName;
-    //   Alert.alert(welcomeMessage);
+    //   return <Text style={{fontWeight: 'bold', color: 'blue', fontSize: 30}}> Hello, $(this.state.UserName) </Text>;
     // } else {
-    //   Alert.alert('Wrong UserName and Password');
+    //   return <Text style={{fontWeight: 'bold', color: 'red', fontSize: 30}}> Sorry Wrong UserName and Password </Text>;
     // }
+    if(this.state.UserName === 'Dinesh' && this.state.Password === 'Baba') {
+      const welcomeMessage = 'Hello ' + this.state.UserName;
+      Alert.alert(welcomeMessage);
+    } else {
+      Alert.alert('Wrong UserName and Password');
+    }
   }
 
   clearDetails() {
@@ -40,37 +41,40 @@ export default class App extends Component {
           }}
           source={{ uri: remote }}
         />
-        <View style={{flexDirection: 'row', width: 300, height: 50, backgroundColor: 'rgba(0,0,0,0.5)'}}>
-          <Text style={{fontWeight: 'bold', color: 'white', fontSize: 15 }}> UserName </Text>
+        <View style={{flexDirection: 'row', width: 300, height: 50, backgroundColor: 'rgba(0,0,0,0.5)', alignItems: 'center', justifyContent: 'center'}}>
+          <Text style={{fontWeight: 'bold', color: 'white', fontSize: 18 }}> UserName </Text>
           <TextInput
-            style={{height: 20, fontSize: 15, color: 'white'}}
+            style={{height: 25, fontSize: 18, color: 'white'}}
             placeholder="Enter UserName"
+            placeholderTextColor="rgba(0,255,255,0.7)"
             onChangeText={(UserName) => this.setState({UserName})}
           />
         </View>
-        <View style={{flexDirection: 'row', width: 300, height: 50, backgroundColor: 'rgba(0,0,0,0.5)'}}>
-          <Text style={{fontWeight: 'bold', color: 'white', fontSize: 15}}> Password </Text>
+        <View style={{flexDirection: 'row', width: 300, height: 50, backgroundColor: 'rgba(0,0,0,0.5)', alignItems: 'center', justifyContent: 'center'}}>
+          <Text style={{fontWeight: 'bold', color: 'white', fontSize: 18}}> Password </Text>
           <TextInput
-            style={{height: 20, fontSize: 15, color: 'white'}}
+            style={{height: 25, fontSize: 18, color: 'white'}}
             placeholder="Enter Password"
+            placeholderTextColor="rgba(0,255,255,0.7)"
             secureTextEntry={true}
             onChangeText={(Password) => this.setState({Password})}
           />
         </View>
         <View style={{flexDirection: 'row',width: 300, height: 50,
           alignItems: 'center',
-          justifyContent: 'center',
+          justifyContent: 'space-around',
+          backgroundColor: 'rgba(0,0,0,0.5)',
         }}>
           <Button
             onPress={this.validate}
             title="Login"
-            color="#841584"
+            color="white"
             accessibilityLabel="Login"
             />
           <Button
             onPress={this.clearDetails}
+            color="white"
             title="Cancel"
-            color="#841584"
             accessibilityLabel="Cancel"
           />
       </View>
