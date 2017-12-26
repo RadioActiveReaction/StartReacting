@@ -1,64 +1,39 @@
-import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import React, { Component } from 'react'
+import { View, StyleSheet, Animated, TouchableOpacity } from 'react-native'
 
-export default class App extends Component {
-  render() {
-    let pic = {
-      uri: 'https://i.pinimg.com/564x/fa/e8/f4/fae8f49da663d919fefe0250843c1979.jpg'
-    };
-    return (
-      <View style={styles.container}>
-        <Text style={{fontWeight: 'bold', color: 'red', fontSize: 30}}> Sasuke </Text>
-        <Image source={pic} style={{width: 193, height: 110}}/>
-        <Text style={styles.bigblue}>He Inspires </Text>
-        <Blink text='Yes.. he is no great' />
-        <Blink text='But he do not believe in this life and karma' />
-        <Blink text='he dont give a fuck about this world' />
-      </View>  
-    );
-  }
-}
-
-
-class Blink extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {showText: true};
-
-    // Toggle the state every second
-    setInterval(() => {
-      this.setState(previousState => {
-        return { showText: !previousState.showText };
-      });
-    }, 1000);
-  }
-
-  render() {
-    let display = this.state.showText ? this.props.text : ' ';
-    return (
-      <Text style={styles.white}>{display}</Text>
-    );
-  }
+export default class Animations extends Component {
+   componentWillMount() {
+      this.animatedWidth = new Animated.Value(50)
+      this.animatedHeight = new Animated.Value(100)
+   }
+   animatedBox() {
+      Animated.timing(this.animatedWidth, {
+         toValue: 200,
+         duration: 1000
+      }).start()
+      Animated.timing(this.animatedHeight, {
+         toValue: 500,
+         duration: 500
+      }).start()
+   }
+   render() {
+      const animatedStyle = { width: this.animatedWidth, height: this.animatedHeight }
+      return (
+         <TouchableOpacity style = {styles.container} onPress = {this.animatedBox}>
+            <Animated.View style = {[styles.box, animatedStyle]}/>
+         </TouchableOpacity>
+      )
+   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'black',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  bigblue: {
-    color: 'blue',
-    fontWeight: 'bold',
-    fontSize: 20,
-  },
-  red: {
-    color: 'red',
-    fontWeight: 'bold',
-    fontSize: 30,
-  },
-  white: {
-    color: 'white'
-  }
-});
+   container: {
+      justifyContent: 'center',
+      alignItems: 'center'
+   },
+   box: {
+      backgroundColor: 'blue',
+      width: 50,
+      height: 100
+   }
+})
