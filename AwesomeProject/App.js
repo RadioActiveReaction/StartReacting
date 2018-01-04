@@ -1,43 +1,31 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
-import Blink from './Blink';
+import { connect, Provider } from 'react-redux';
+import { createStore } from 'redux';
+import reducer from './reducer';
+import Navigation from './Navigation';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'black',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  bigblue: {
-    color: 'blue',
-    fontWeight: 'bold',
-    fontSize: 20,
-  },
-  red: {
-    color: 'red',
-    fontWeight: 'bold',
-    fontSize: 30,
-  },
-  white: {
-    color: 'white',
-  },
-});
-
-const App = () => {
-  const pic = {
-    uri: 'https://i.pinimg.com/564x/fa/e8/f4/fae8f49da663d919fefe0250843c1979.jpg',
+function mapStateToProps(state) {
+  return {
+    UserName: state.UserName,
+    Password: state.Password,
+    isUserBeingFetched: state.isUserBeingFetched,
+    hasUserFetchedSuccessful: state.hasUserFetchedSuccessful,
   };
-  return (
-    <View style={styles.container}>
-      <Text style={{ fontWeight: 'bold', color: 'red', fontSize: 30 }}> Sasuke </Text>
-      <Image source={pic} style={{ width: 193, height: 110 }} />
-      <Text style={styles.bigblue}>He Inspires </Text>
-      <Blink text="Yes.. he is no great" />
-      <Blink text="But he do not believe in this life and karma" />
-      <Blink text="he dont give a fuck about this world" />
-    </View>
-  );
-};
+}
+
+/*
+ * For Now we don't need mapDispatchToProps because,
+ * we are not yet sending functional props. To make the app in sync with all
+ * pages we need mapDispatchToProps.
+ */
+
+const ReduxNavigation = connect(mapStateToProps)(Navigation);
+const store = createStore(reducer);
+
+const App = () => (
+  <Provider store={store}>
+    <ReduxNavigation />
+  </Provider>
+);
 
 export default App;
